@@ -18,22 +18,23 @@ public class MyDraw extends View {
 	}
 
 	Paint paint = new Paint();
-	Bitmap rocket = BitmapFactory.decodeResource(getResources(), R.drawable.rocket);
-	Matrix matrix = new Matrix();
+	Bitmap rocketImage = BitmapFactory.decodeResource(getResources(), R.drawable.rocket);
+	
 	
 	float xRocket = 300, yRocket = 300;
 	float vxRocket = 0.5f, vyRocket = -0.5f;
-	
+
+	Rocket rocket = new Rocket(300, 300, rocketImage);
+
 	@Override
 	protected void onDraw(Canvas canvas) {
 		
 		drawSky(canvas);
 
-		drawRocket(canvas, xRocket, yRocket, vxRocket, vyRocket);
-		
-		xRocket += vxRocket;
-		yRocket += vyRocket;
-		
+		//sky.draw(canvas);
+		rocket.draw(canvas);
+		rocket.move();
+
 		// Запрос на перерисовку экрана
 		invalidate();
 	}
@@ -70,16 +71,6 @@ public class MyDraw extends View {
 		   if (alphaStar[i] < 0) alphaStar[i] = 0;
 		   canvas.drawCircle(xStar[i], yStar[i], 3, paint);
 		}   
-	}
-	
-	void drawRocket(Canvas canvas, float x, float y, float vx, float vy)
-	{
-		matrix.setScale(0.2f, 0.2f);
-		//Study mathematics, dear young programmer :)  
-		matrix.postRotate((float)Math.toDegrees(Math.atan2(vy, vx)) + 45);
-		matrix.postTranslate(x, y);
-		paint.setAlpha(255);
-		canvas.drawBitmap(rocket, matrix, paint);
 	}
 	
 }
